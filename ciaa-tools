@@ -1,0 +1,65 @@
+#!/bin/bash
+readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.0"
+readonly TARGET_DIR="/ciaa/examples/c/app"
+POSITIONAL_ARGS=()
+CMD=""
+
+# Functions
+print_help() {
+    echo "Usage: $0 [OPTION]... [FOLDER]..."
+    echo ""
+    echo "-b, --build            builds the application to <directory>/out"
+    echo "-f, --flash            flashes the application to edu-ciaa-nxp"
+    echo "-m, --monitor          starts a com terminal using picocom"
+    echo "-h, --help             shows the help menu"
+    echo ""
+    echo "Note: 'undefined reference to main' erros are often due to not choosing a directory with a 'config.mk file'"
+    echo "Author: lorsi96"
+    exit 0
+}
+
+# Build image is needed.
+docker image inspect $DOCKER_TAG >/dev/null || \
+docker image build -t $DOCKER_TAG .
+
+# Trigger help menu if used incorrectly or -h.
+if [[ $# -eq 0 ]] ; then
+    print_help
+fi
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -b|--build)
+      CMD+="make all; "
+      shift # past argument
+      ;;
+    -f|--flash)
+      CMD+="make download; "
+      shift # past argument
+      ;;
+    -m|--monitor)
+      CMD+="picocom  /dev/ttyUSB1 -b 460800 --log $TARGET_DIR/log.bin #> /dev/null; "
+      shift # past argument
+      ;;
+    -h|--help)
+      print_help
+      ;;
+    *)
+      POSITIONAL_ARGS+=("$1") # save positional arg
+      shift # past argument
+      ;;
+  esac
+done
+
+set -- "${POSITIONAL_ARGS[@]}"
+
+# Run command.
+docker run \
+  -it --rm \
+  --privileged \
+  --name lorsi-ciaa \
+  -v $(pwd)/$1:$TARGET_DIR  \
+  -v /dev:/dev \
+  --workdir /ciaa \
+  $DOCKER_TAG \
+  /bin/bash -c "$CMD"  
