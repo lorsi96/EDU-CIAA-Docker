@@ -23,7 +23,7 @@ RUN cd /opt && \
     rm gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
 
 WORKDIR /ciaa
-RUN git clone https://github.com/epernia/firmware_v3  .
+RUN git clone https://github.com/lorsi96/firmware_v3  .
 COPY openocd/bin /bin/
 COPY openocd /usr/share/openocd
 
