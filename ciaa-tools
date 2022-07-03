@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.0"
+readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.3"
 readonly TARGET_DIR="/ciaa/examples/c/app"
 POSITIONAL_ARGS=()
 CMD=""
@@ -11,6 +11,7 @@ print_help() {
     echo "-b, --build            builds the application to <directory>/out"
     echo "-f, --flash            flashes the application to edu-ciaa-nxp"
     echo "-m, --monitor          starts a com terminal using picocom"
+    echo "-d, --debug            starts openocd server :3333 for debugging"
     echo "-h, --help             shows the help menu"
     echo ""
     echo "Note: 'undefined reference to main' erros are often due to not choosing a directory with a 'config.mk file'"
@@ -30,13 +31,17 @@ fi
 while [[ $# -gt 0 ]]; do
   case $1 in
     -b|--build)
-      CMD+="make all; "
+      CMD+="make all && cp -r libs $TARGET_DIR/out && cp -r $TARGET_DIR/src/* $TARGET_DIR/out/examples/c/app/src/"
       shift # past argument
       ;;
     -f|--flash)
       CMD+="make download; "
       shift # past argument
       ;;
+    -d|--debug)
+      CMD+="openocd -f scripts/openocd/lpc4337.cfg;"
+      shift # past argument
+      ;;  
     -m|--monitor)
       CMD+="picocom  /dev/ttyUSB1 -b 460800 --log $TARGET_DIR/log.bin #> /dev/null; "
       shift # past argument
@@ -57,9 +62,10 @@ set -- "${POSITIONAL_ARGS[@]}"
 docker run \
   -it --rm \
   --privileged \
-  --name lorsi-ciaa \
   -v $(pwd)/$1:$TARGET_DIR  \
+  -v $(pwd)/tools/openocd/bin:/binocd \
   -v /dev:/dev \
+  --network host \
   --workdir /ciaa \
   $DOCKER_TAG \
   /bin/bash -c "$CMD"  
