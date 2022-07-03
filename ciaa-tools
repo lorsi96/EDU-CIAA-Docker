@@ -31,7 +31,7 @@ fi
 while [[ $# -gt 0 ]]; do
   case $1 in
     -b|--build)
-      CMD+="make all && cp -r libs $TARGET_DIR/out && cp -r $TARGET_DIR/src/* $TARGET_DIR/out/examples/c/app/src/"
+      CMD+="make all" #  && cp -r libs $TARGET_DIR/out && cp -r $TARGET_DIR/src/* $TARGET_DIR/out/examples/c/app/src/"
       shift # past argument
       ;;
     -f|--flash)
@@ -39,7 +39,9 @@ while [[ $# -gt 0 ]]; do
       shift # past argument
       ;;
     -d|--debug)
-      CMD+="openocd -f scripts/openocd/lpc4337.cfg;"
+      mkdir -p $(pwd)/$2/.debug/examples/c
+      ln -s $(pwd)/$2 $(pwd)/$2/.debug/examples/c/app
+      CMD+="cp -r libs $TARGET_DIR/.debug && openocd -f scripts/openocd/lpc4337.cfg"
       shift # past argument
       ;;  
     -m|--monitor)

@@ -2,18 +2,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "gdb",
+            "name": "edu-ciaa-nxp-debug",
+            "cwd": "${workspaceRoot}/out",
+            "executable": "${workspaceRoot}/out/app.elf",
             "request": "attach",
-            "name": "Attach to gdbserver",
-            "executable": "${workspaceRoot}/app/out/app.elf",
-            "target": "localhost:3333",
-            "remote": true,
-            "cwd": "${workspaceRoot}/app/out", 
-            "gdbpath": "/home/lorsi/CIAA/tools/gcc-arm-embedded/bin/arm-none-eabi-gdb",
-            "autorun": [
-                    "monitor halt",
-                    "break main"
-                ]
+            "gdbTarget": "localhost:3333",
+            "type": "cortex-debug",
+            "servertype": "external"
         }
     ]
 }
