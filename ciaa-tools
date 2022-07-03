@@ -38,6 +38,10 @@ while [[ $# -gt 0 ]]; do
       CMD+="make download; "
       shift # past argument
       ;;
+    -c|--clean)
+      CMD+="make clean; "
+      shift # past argument
+      ;;
     -d|--debug)
       mkdir -p $(pwd)/$2/.debug/examples/c
       ln -s $(pwd)/$2 $(pwd)/$2/.debug/examples/c/app
