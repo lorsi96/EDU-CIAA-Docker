@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "edu-ciaa-nxp-debug",
-            "cwd": "${workspaceRoot}/out",
+            "cwd": "${workspaceRoot}/.debug",
             "executable": "${workspaceRoot}/out/app.elf",
             "request": "attach",
             "gdbTarget": "localhost:3333",
