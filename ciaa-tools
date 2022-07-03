@@ -65,7 +65,6 @@ docker run \
   -it --rm \
   --privileged \
   -v $(pwd)/$1:$TARGET_DIR  \
-  -v $(pwd)/tools/openocd/bin:/binocd \
   -v /dev:/dev \
   --network host \
   --workdir /ciaa \
