@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.3"
+readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.4"
 readonly TARGET_DIR="/ciaa/examples/c/app"
 POSITIONAL_ARGS=()
 CMD=""
