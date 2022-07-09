@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.4"
+readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.6"
 readonly TARGET_DIR="/ciaa/examples/c/app"
 POSITIONAL_ARGS=()
 CMD=""
@@ -50,6 +50,10 @@ while [[ $# -gt 0 ]]; do
       ;;  
     -m|--monitor)
       CMD+="picocom  /dev/ttyUSB1 -b 460800 --log $TARGET_DIR/log.bin #> /dev/null; "
+      shift # past argument
+      ;;
+    -t|--terminal)
+      CMD+="/bin/bash"
       shift # past argument
       ;;
     -h|--help)
