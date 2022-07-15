@@ -9,7 +9,8 @@
 1. If permission issues arise when running the `docker` command, check out this  [guide][sudoless]
 1. Connect the EDU-CIAA-NXP board (debug port) and run `ciaa-tools`:
     ```sh
-    ./ciaa-tools --build --flash ./example/
+    ./ciaa-tools --build ./example/
+    ./ciaa-tools --flash ./example/
     ```
 
 [docker]: https://get.docker.com/
