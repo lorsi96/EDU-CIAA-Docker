@@ -14,7 +14,9 @@ RUN apt-get update && \
       picocom \
       python3-dev \
       libasound2-dev \
-      libncurses5
+      libncurses5 \
+      doxygen \
+      graphviz
 
 
 RUN cd /opt && \ 

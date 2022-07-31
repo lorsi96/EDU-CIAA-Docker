@@ -1,5 +1,5 @@
 #!/bin/bash
-readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.6"
+readonly DOCKER_TAG="lorsi/ciaa-development-environment:1.0.7"
 readonly TARGET_DIR="/ciaa/examples/c/app"
 POSITIONAL_ARGS=()
 CMD=""
@@ -12,6 +12,7 @@ print_help() {
     echo "-f, --flash            flashes the application to edu-ciaa-nxp"
     echo "-m, --monitor          starts a com terminal using picocom"
     echo "-d, --debug            starts openocd server :3333 for debugging"
+    echo "-t, --terminal         starts a terminal inside the dev environment"
     echo "-h, --help             shows the help menu"
     echo ""
     echo "Note: 'undefined reference to main' erros are often due to not choosing a directory with a 'config.mk file'"
